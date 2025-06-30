@@ -1,0 +1,76 @@
+---
+const {
+  /** number of horizontal “pixels” in the pixel-art canvas */
+  pixelWidth = 24,
+  /** number of vertical “pixels” in the pixel-art canvas */
+  pixelHeight = 23,
+} = Astro.props;
+---
+
+<style>
+  .pixel-button::after {
+    content: "Click to start webcam";
+    position: absolute;
+    font-family: sans-serif;
+  }
+  .pixel-button.running::after {
+    display: none;
+  }
+  .pixel-canvas {
+    image-rendering: pixelated;
+    width: 100%;
+    height: 100%;
+  }
+  .video-element {
+    display: none;
+  }
+</style>
+
+<div
+  class="pixel-button relative max-w-[50wv] rounded-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-base-200 text-base-900 dark:bg-base-800 dark:text-base-100 text-lg font-semibold border border-base-600/40 dark:border-base-400/40"
+  style="
+    --pw:${pixelWidth};
+    --ph:${pixelHeight};
+    --s:${scale};
+  "
+>
+  <canvas class="pixel-canvas" width={pixelWidth} height={pixelHeight}></canvas>
+  <video class="video-element" autoplay playsinline></video>
+</div>
+
+<script is:inline>
+  const btn = document.currentScript.previousElementSibling;
+  const canvas = btn.querySelector("canvas");
+  const video = btn.querySelector("video");
+  const ctx = canvas.getContext("2d");
+  let streaming = false;
+
+  // disable smoothing for blocky pixels
+  ctx.imageSmoothingEnabled = false;
+
+  function drawFrame() {
+    if (!streaming) return;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    requestAnimationFrame(drawFrame);
+  }
+
+  btn.addEventListener("click", async () => {
+    if (streaming) {
+      streaming = false;
+      video.srcObject.getTracks().forEach((t) => t.stop());
+    } else {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        video.srcObject = stream;
+        streaming = true;
+        btn.classList.add("running");
+        drawFrame();
+      } catch (err) {
+        console.error("Webcam error:", err);
+        alert("Unable to access webcam.");
+      }
+    }
+  });
+</script>
