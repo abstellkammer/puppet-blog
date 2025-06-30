@@ -13,16 +13,16 @@ export const BASE = "/puppet-blog";
 // MORE SETTINGS:
 
 // will be used for the the title and meta tags and in the header (if SITE_NAME is left blank)
-export const SITE_TITLE = "flo-bit's blog template";
+export const SITE_TITLE = "puppet blog";
 
 // will be used in the meta tags (and for example shown in search results)
-export const SITE_DESCRIPTION = "Welcome to my blog template! Fork it and make it your own.";
+export const SITE_DESCRIPTION = "Welcome to our blog";
 
 // will be used as the icon in the header and the favicon
 export const SITE_FAVICON = "🙃";
 
 // will be used in the footer as the name of the author (c) <YEAR> <NAME> - LICENSE
-export const NAME = "flo-bit";
+export const NAME = "puppet";
 
 // will be used in the footer as the license of the content (e.g. "All right reserved" or "CC-BY-SA 4.0")
 export const LICENSE = "MIT licensed.";
@@ -30,13 +30,13 @@ export const LICENSE = "MIT licensed.";
 // will be used to identify your bluesky account, so that likes and comments can be shown on your posts
 export const BLUESKY_IDENTIFIER = "flo-bit.dev";
 
-export const SOURCE_LINK = 'https://github.com/flo-bit/blog-template';
+export const SOURCE_LINK = 'https://github.com/abstellkammer/puppet-blog';
 
 // will be used to set the base color of the blog
 export const BASE_COLOR: BaseColor = "neutral";
 
 // will be used to set the accent color of the blog
-export const ACCENT_COLOR: AccentColor = "cyan";
+export const ACCENT_COLOR: AccentColor = "rose";
 
 // will show all icons that are not empty in the footer as links
 export const SOCIAL_LINKS: {
@@ -52,9 +52,6 @@ export const SOCIAL_LINKS: {
   SHOW_RSS?: boolean;
 } = {
   SHOW_RSS: true,
-  BLUESKY_URL: "https://bsky.app/profile/flo-bit.dev",
-  GITHUB_URL: "https://github.com/flo-bit",
-  EMAIL: "flo.bit.dev@gmail.com",
 };
 
 
@@ -64,7 +61,7 @@ export const SOCIAL_LINKS: {
 export const MANUAL_DARK_MODE = true;
 
 // if true, will enable the search functionality
-export const SEARCH_ENABLED = true;
+export const SEARCH_ENABLED = false;
 
 // if true, will show images in the posts
 export const SHOW_IMAGES = true;
@@ -76,4 +73,4 @@ export const POSTS_PER_PAGE = 8;
 export const SITE_NAME = "";
 
 // if true, will show the SITE_FAVICON in the header
-export const SHOW_FAVICON_IN_HEADER = true;
+export const SHOW_FAVICON_IN_HEADER = false;
