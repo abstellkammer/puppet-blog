@@ -50,3 +50,11 @@ const { title, description, image = "main.png" } = Astro.props;
   property="twitter:image"
   content={new URL(BASE + "/open-graph/" + image, Astro.url)}
 />
+
+<!-- Umami Analytics -->
+<script
+  is:inline
+  defer
+  src="https://umami-wispy-dream-8048.fly.dev/script.js"
+  data-website-id="ff23555b-f2ef-4157-a807-93016f8dae57"
+  data-domains="abstellkammer.github.io"></script>
