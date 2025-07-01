@@ -1,6 +1,7 @@
 ---
 import { parseOpenGraph } from "./lib";
 import type { HTMLAttributes } from "astro/types";
+import { Image } from "astro:assets";
 
 export type Props = HTMLAttributes<"a"> & {
   showMedia?: boolean;
@@ -16,6 +17,7 @@ export type Props = HTMLAttributes<"a"> & {
 
   title?: string;
   description?: string;
+  image?: string;
 };
 
 const {
@@ -30,6 +32,7 @@ const {
   target = "_blank",
   title,
   description,
+  image,
   ...props
 } = Astro.props;
 
@@ -37,6 +40,26 @@ const meta = await parseOpenGraph((href ?? id)?.toString() ?? "");
 
 if (title && meta) meta.title = title;
 if (description && meta) meta.description = description;
+
+let localImage;
+
+if (image && meta && image.startsWith("/src")) {
+  const images = import.meta.glob<{ default: ImageMetadata }>(
+    "/src/assets/**/*.{jpeg,jpg,png,gif}"
+  );
+
+  // replace ../.. with src in image
+  let replacedImage = image.replace("../..", "/src");
+
+  if (!images[replacedImage])
+    throw new Error(
+      `"${replacedImage}" does not exist in glob: "src/assets/**/*.{jpeg,jpg,png,gif}"`
+    );
+
+  localImage = images[replacedImage];
+} else if (image && meta) {
+  meta.image = image;
+}
 
 const domain = meta?.url ? new URL(meta.url).hostname.replace("www.", "") : "";
 ---
@@ -65,6 +88,14 @@ const domain = meta?.url ? new URL(meta.url).hostname.replace("www.", "") : "";
       <img
         src={meta.image}
         alt={meta.imageAlt || ""}
+        width="1200"
+        height="630"
+        class="absolute inset-0 w-full h-full object-cover -z-10 rounded-xl"
+      />
+    ) : localImage ? (
+      <Image
+        src={localImage()}
+        alt={meta?.imageAlt || ""}
         width="1200"
         height="630"
         class="absolute inset-0 w-full h-full object-cover -z-10 rounded-xl"

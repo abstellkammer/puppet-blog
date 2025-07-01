@@ -20,6 +20,7 @@ const {
     image-rendering: pixelated;
     width: 100%;
     height: 100%;
+    transform: scaleX(-1);
   }
   .video-element {
     display: none;
@@ -27,7 +28,7 @@ const {
 </style>
 
 <div
-  class="pixel-button relative max-w-[50wv] rounded-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-base-200 text-base-900 dark:bg-base-800 dark:text-base-100 text-lg font-semibold border border-base-600/40 dark:border-base-400/40"
+  class="pixel-button relative max-w-[40vw] md:max-w-[20vw] mx-auto text-center rounded-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-base-200 text-base-900 dark:bg-base-800 dark:text-base-100 text-lg font-semibold border border-base-600/40 dark:border-base-400/40"
   style="
     --pw:${pixelWidth};
     --ph:${pixelHeight};

@@ -1,5 +1,7 @@
 # puppet blog
 
+WORK IN PROGRESS, NO COMPLETE BLOG POSTS YET!
+
 ## About
 
 This is the blog of puppet, a collective of makers and hackers.
