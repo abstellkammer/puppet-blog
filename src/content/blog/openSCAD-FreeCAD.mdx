@@ -1,163 +1,33 @@
 ---
-title: "Using OpenSCAD and FreeCAD"
-description: "Learn how to make your own round LED matrix with an esp32 and WLED"
-pubDate: "Jul 01 2025"
+title: "A Poor Man using OpenSCAD and FreeCAD"
+description: "Learn how to be a poor man and use OpenSCAD and FreeCAD to make your own 3D models and Technical drawings"
+pubDate: "Jul 15 2025"
 published: true
-tags: ["electronics", "diy"]
-heroImage: "../../assets/posts/round-led-matrix/cover.jpg"
+tags: ["3D printing","3D model","open source","CAD"]
+heroimage: "../../assets/posts/openSCAD-FreeCAD/cover.jpg"
 ---
 
-BLOG POST WORK IN PROGRESS!
+BLOG POST WORK iN PROGRESS!
 
-## Introduction
+## introduction
+in this post, i will tell the story of how i started using OpenSCAD and now use it in combination with FreeCAD (mainly to produce nice technical drawings).
 
-Last weekend we - the [puppet team (TM)](/puppet-blog/about) - joined the [fablab neukölln art makerthon](#). 
-We had 48 hours to make something that should fit in a specified round frame and that we could showcase afterwards.
+i’m not good at it at all, and i believe the way i navigate both tools could best be described as a “poor man’s method.”
 
-**flo-bit** is a sucker for anything made with controllable RGB LEDs and he can be very convincing when he's passionate 
-(and what could possibly worth more passion than individually controlled RGB LEDs?).
-We made a pixel art mirror that in the end looked like this:
+it all started with my thesis, where i had to make 3D models for the machine i was building.
+during my research i came across the OpenFlexure project and started using OpenSCAD to make the 3D models for the parts i needed.
 
-[picture of pixel art mirror]
+in the last two years, i have built a lot of stuff by writing quick and dirty OpenSCAD code.
+for all my models i basically use cube([x, y, z]), cylinder(r=..., h=...), translate([x, y, z]), difference(), union(), and module() to make everything.
 
-Apart from showing as a mirror this thing can also show a variety of cool effects, curtesy of [WLED](#).
+there are some other things i’ve used, but for the first month, that was it.
 
-[grid of effects].
+one of the things i always wanted to be able to make were nice technical drawings, but i failed to make them by hand.
+i found out that you can make technical drawings from 3D models with every major CAD software.
+now, i use FreeCAD to make technical drawings from my OpenSCAD models.
 
-This is both the story of how we made it, as well as a how-to guide if you wanna make your own. 
-For the how-to we'll concentrate on how to make the LED frame with just the effects above (so without the mirror functionality), 
-as the mirror part is honestly very hacky, but we've added an [extra step](#) at the end describing how we hacked that together
-(if you have an idea for how to make that better, preferably with just an esp32 + camera, [send us a message](#)).
-
-## Requirements
-
-If you plan to try your hand at making one, you need two things apart from the materials:
-
-1. A solder iron (some experience with soldering might be useful, but this is also a good learning project, 
-we don't really know how to solder either, we just do it and sometimes it works 😝)
-
-2. A laser cutter that has a cutting area of at least 40cm x 24cm, if you don't have one, check your nearest makerspace
-
-## Bill of Materials
-
-For the materials you need: 
-(without the mirror functionality, for that you'd also need a raspberry 3b or above with wifi and a camera). 
-
-(links are to the german amazon, those are not referrer links, just where we bought stuff)
-
-1. 7 meters of WS2812b with 60 leds per meter in total 420 (*noice*) LEDs [link](#)
-2. 1 esp32 (we used a D1 mini with usb c) [link](#)
-3. lots of small wires [link](#)
-4. usb cable (depending on the esp32 you use either usb-c or micro-usb) and plug (or a powerbank if you want to make it mobile)
-5. 3 plates of 40cm x 24cm plywood (we used 3mm thickness but it doesn't really matter) [link](#)
-6. 4 cardboards (40cm x 24cm, preferably 3mm thickness)
-7. a white cloth thats at least 46cm x 46cm (we used an old bed cover)
-8. glue
-
-### Total cost
-
-#### **35 € - 40 €**
-
-The main cost are the LED strips, we bought them from amazon for 15 € for 5 meters (so 7 meters are ~21 €). 
-There are cheaper options available on something like aliexpress though.
-
-An esp32 costs about 7 € (again less on aliexpress) and the wood we used was about 8 € for the 3 plates.
-
-Everything else we had at home, but should be pretty cheap anyway (less than 5 €, if you don't add a powerbank).
-
-## Step 1: Making the frame
-
-First we created the backframe, by lasercutting 2 of the plywood plates. Here are the files both for *LightBurn* and as SVGs:
-
-[lasercut files, 4 files svg, 4 files lightburn]
-
-Note that there are 2 layers, the first should be cut, the second is just for marking the LED strip positions (so use low power for that one).
-
-The rings for the front were given to us already laser cut, but here are the files for anyone following along at home (from [this fablab github repo](#)).
-Use the last plywood plate to cut out the ring segments.
-
-[lasercut file, 1 file svg, 1 file lightburn]
-
-Use some wood glue to glue the parts together and you should have two rings and one big circle with markings on one side for the LEDs 
-(sadly we forgot to take pictures of this and the next few steps).
-
-## Step 2: Adding the walls
-
-The walls are also lasercut but out of cardboard (would have taken way to long to cut them out of wood and 
-we were in a hurry, you can cut them out of plywood too, but in the end they wont be visible anyway). We just used random packaging 
-cardboard we had laying around.
-
-[lasercut files, wall]
-
-## Step 3: Cutting the LED strips
-
-Now for the three steps where you have to pay attention not to fuck it up: 
-Cutting the LED strips into segments in with the correct amount of LEDs for each segment.
-
-When cutting also make sure LED strips are cut exactly in the middle of a connection.
-
-[closeup of cut of LED strip]
-
-In total you need:
-
-- **2x** 8 LEDs segments
-- **2x** 12 LEDs segments
-- **2x** 14 LEDs segments
-- **2x** 16 LEDs segments
-- **2x** 18 LEDs segments
-- **4x** 20 LEDs segments
-- **6x** 22 LEDs segments
-- **3x** 24 LEDs segments
-
-You can also directly lay them on the board (don't glue them yet though) to make sure you have the correct count,
-they should fit perfectly in the little markings on the plate (lengthwise, they are less thick than the markings)
-
-:excalidraw[/src/assets/posts/round-led-matrix/drawings/led-count.svg]
+they look like this:
 
 
-## Glueing the LED strips
 
-the LED strips have to be laid out in a serpentine arrangement with the correct count.
-
-:excalidraw[/src/assets/posts/round-led-matrix/drawings/led-strips-serpentine.svg]
-
-there are little arrows on the LED strips that show you the direction there are going, those should alternate go left to right then right to left.
-
-
-## Step 4: Soldering the LED strips together
-
-Again pay lots of attention here, you can accidentially fry your LED strips if you make a mistake here 
-(we've of course *never* fried any LED strip *cough, cough*, thankfully the LED strips are usually sold as 5 meter strips so you have some leftover)
-
-:excalidraw[/src/assets/posts/round-led-matrix/drawings/led-strips-serpentine-arrows.svg]
-
-What each LED solder connection should look like:
-
-[maybe make this a like magnifying glass thingy with the drawing above?]
-
-<div class="w-1/2">
-:excalidraw[/src/assets/posts/round-led-matrix/drawings/led-connection.svg]
-</div>
-## Step 5: Soldering the connection onto the ESP
-
-
-:excalidraw[/src/assets/posts/round-led-matrix/drawings/esp32-pinout.svg]
-
-
-## Step 5: Flashing the ESP
-
-:link[https://install.wled.me/]{image="/src/assets/posts/round-led-matrix/screenshots/install.wled.me.png"}
-
-
-## Step 6: Setting up the LED grid
-
-## Step 7: Playing around with some effects
-
-## Extra: Make it a mirror? (maybe take this out for now?)
-
-## Some more pictures
-
-
-import CircularWebcam from "$components/posts/CircularWebcam.astro"
-
-<CircularWebcam />
+<img src="../../assets/posts/openSCAD-FreeCAD/td_wheel_dish_v2.pdf" alt="pdf td" width="400">
