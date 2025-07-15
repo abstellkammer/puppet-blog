@@ -13,3 +13,10 @@ This blog was created using this [astro blog template](https://github.com/flo-bi
 ## License
 
 MIT.
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
