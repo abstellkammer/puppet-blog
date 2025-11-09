@@ -1,0 +1,62 @@
+---
+import type { ImageMetadata } from "astro";
+
+export interface Props {
+  file: string | ImageMetadata;
+  title: string;
+  description?: string;
+}
+
+const { file, title, description } = Astro.props;
+
+// Get the file URL - handle both imported assets and string paths
+let fileUrl: string;
+let fileName: string;
+
+if (typeof file === "string") {
+  // If it's a string, use it directly
+  fileUrl = file;
+  // Extract filename from path
+  fileName = file.split("/").pop() || "download";
+} else {
+  // If it's an imported asset (ImageMetadata), get the src
+  fileUrl = file.src;
+  fileName = file.src.split("/").pop() || "download";
+}
+---
+
+<div
+  class="not-prose my-6 p-4 rounded-xl border border-base-400 dark:border-base-700 bg-base-200/50 dark:bg-base-950/50"
+>
+  <div class="flex flex-col gap-2">
+    <h3 class="text-lg font-semibold text-base-950 dark:text-base-50">
+      {title}
+    </h3>
+    {
+      description && (
+        <p class="text-sm text-base-700 dark:text-base-300">{description}</p>
+      )
+    }
+    <a
+      href={fileUrl}
+      download={fileName}
+      class="inline-flex items-center justify-center gap-2 self-start mt-2 px-4 py-2 rounded-lg bg-accent-500 hover:bg-accent-600 dark:bg-accent-600 dark:hover:bg-accent-700 text-white font-medium transition-colors duration-200"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+        ></path>
+      </svg>
+      Download
+    </a>
+  </div>
+</div>

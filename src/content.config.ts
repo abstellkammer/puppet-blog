@@ -42,6 +42,10 @@ const blog = defineCollection({
     // and HAS TO START with `/src/assets/`
     heroImage: z.string().optional(),
 
+    // path to the hero video, HAS TO BE IN /src/assets folder
+    // and HAS TO START with `/src/assets/`
+    heroVideo: z.string().optional(),
+
     // array of tags
     tags: z.array(z.string()).optional(),
 

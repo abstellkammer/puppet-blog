@@ -5,6 +5,7 @@ pubDate: "Jul 01 2025"
 published: true
 tags: ["electronics", "diy"]
 heroImage: "../../assets/posts/round-led-matrix/cover.jpg"
+heroVideo: "../../assets/posts/round-led-matrix/cover.mp4"
 ---
 
 BLOG POST WORK IN PROGRESS!
@@ -24,7 +25,40 @@ So we basically just put a bunch of LEDs into that frame and made a pixel art mi
 
 Apart from working like a bad mirror this thing can also show a variety of cool effects, curtesy of [WLED](#).
 
-[grid of effects].
+
+import video1 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-1.mp4"
+import video2 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-2.mp4"
+import video3 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-3.mp4"
+import video4 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-4.mp4"
+import video5 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-5.mp4"
+import video6 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-6.mp4"
+import video7 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-7.mp4"
+import video8 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-8.mp4"
+import video9 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-9.mp4"
+
+{/*
+// import video1 from "/src/assets/posts/round-led-matrix/effects/output-1.webm"
+// import video2 from "/src/assets/posts/round-led-matrix/effects/output-2.webm"
+// import video3 from "/src/assets/posts/round-led-matrix/effects/output-3.webm"
+// import video4 from "/src/assets/posts/round-led-matrix/effects/output-4.webm"
+// import video5 from "/src/assets/posts/round-led-matrix/effects/output-5.webm"
+// import video6 from "/src/assets/posts/round-led-matrix/effects/output-6.webm"
+// import video7 from "/src/assets/posts/round-led-matrix/effects/output-7.webm"
+// import video8 from "/src/assets/posts/round-led-matrix/effects/output-8.webm"
+// import video9 from "/src/assets/posts/round-led-matrix/effects/output-9.webm"
+*/}
+
+<div class="grid grid-cols-2 md:grid-cols-3 not-prose gap-4">
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video1} autoplay loop muted></video>
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video2} autoplay loop muted></video>
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video3} autoplay loop muted></video>
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video4} autoplay loop muted></video>
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video5} autoplay loop muted></video>
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video6} autoplay loop muted></video>
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video7} autoplay loop muted></video>
+ <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video8} autoplay loop muted></video>
+ <video class="rounded-xl hidden md:block filter saturate-150 aspect-square object-cover" src={video9} autoplay loop muted></video>
+</div>
 
 *This blog post is both the story of how we made it, as well as a how-to guide if you wanna make your own.*
 
@@ -73,6 +107,20 @@ Everything else we had at home, but should be pretty cheap anyway (less than 5 â
 First we created the backframe, by lasercutting 2 of the plywood plates. Here are the files both for *LightBurn* and as SVGs:
 
 [lasercut files, 4 files svg, 4 files lightburn]
+
+import DownloadFile from "$components/DownloadFile.astro"
+
+<DownloadFile 
+  file="/src/assets/posts/round-led-matrix/files/circle_light_base_split-cut_ready-wood.lbrn2" 
+  title="Backframe" 
+  description="LightBurn file for laser cutting"
+/>
+
+<DownloadFile 
+  file="/src/assets/posts/round-led-matrix/files/circle_light_base_split_bottom.svg" 
+  title="Backframe" 
+  description="Bottom part of the backframe as svg"
+/>
 
 Note that there are 2 layers, the first should be cut, the second is just for marking the LED strip positions (so use low power for that one).
 

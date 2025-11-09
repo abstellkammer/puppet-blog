@@ -26,10 +26,18 @@ const { Content } = await render(post);
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/**/*.{jpeg,jpg,png,gif}"
 );
+const videos = import.meta.glob("/src/assets/**/*.{mp4,webm}");
 const replacedHero = post.data.heroImage?.replace("../..", "/src");
+
+const replacedHeroVideo = post.data.heroVideo?.replace("../..", "/src");
+if (replacedHeroVideo && !videos[replacedHeroVideo])
+  throw new Error(
+    `"${replacedHeroVideo}" does not exist in glob: "src/assets/**/*.{mp4} ${Object.keys(videos).join(", ")}"`
+  );
+
 if (replacedHero && !images[replacedHero])
   throw new Error(
-    `"${post.data.heroImage}" does not exist in glob: "src/assets/**/*.{jpeg,jpg,png,gif}"`
+    `"${post.data.heroImage}" does not exist in glob: "src/assets/**/*.{jpeg,jpg,png,gif,webp}"`
   );
 ---
 
