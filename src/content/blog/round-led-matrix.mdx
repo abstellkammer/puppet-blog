@@ -18,7 +18,7 @@ We had 48 hours to make something that should fit in a specified round frame and
 import frame from "../../assets/posts/round-led-matrix/images/1-frame.png"
 import { Image } from 'astro:assets';
 
-<Image src={frame} alt="A bird sitting on a nest of eggs." />
+<Image src={frame} alt="" class="mx-auto max-w-lg" />
 
 **flo-bit** is a sucker for anything made with controllable RGB LEDs and he can be very convincing when he's passionate 
 (and what could possibly worth more passion than individually controllable RGB LEDs?).
@@ -132,8 +132,13 @@ Use the last plywood plate to cut out the ring segments.
 
 [lasercut file, 1 file svg, 1 file lightburn]
 
-Use some wood glue to glue the parts together and you should have two rings and one big circle with markings on one side for the LEDs 
-(sadly we forgot to take pictures of this and the next few steps).
+Use some wood glue or just duct tape to glue the parts together and you should have two rings and one big circle with markings on one side for the LEDs 
+(you might be able to guess wether we used wood glue or duct tape...)
+
+import base from "../../assets/posts/round-led-matrix/images/3-base.png"
+
+<Image src={base} alt="" class="max-w-lg mx-auto" />
+
 
 ## Step 2: Adding the walls
 
@@ -146,14 +151,16 @@ cardboard we had laying around.
 Afterwards you can lay them on your base board (good luck figuring out which go where, we don't have a good tip here, we struggled with that too 🙃) 
 and start putting them together, we tried that without glue first, but after everything fell apart twice we went for some glue.
 
+import grid from "../../assets/posts/round-led-matrix/images/2-grid.png"
+
+<Image src={grid} alt="" class="max-w-lg mx-auto"/>
+
 ## Step 3: Cutting the LED strips
 
 Now for the three steps where you have to pay attention not to fuck it up: 
 Cutting the LED strips into segments in with the correct amount of LEDs for each segment.
 
 When cutting also make sure LED strips are cut exactly in the middle of a connection.
-
-[closeup of cut of LED strip]
 
 In total you need:
 
@@ -189,8 +196,9 @@ there are little arrows on the LED strips that show you the direction there are 
 Again pay lots of attention here, you can accidentially fry your LED strips if you make a mistake here 
 (we've of course *never* fried any LED strip *cough, cough*, thankfully the LED strips are usually sold as 5 meter strips so you have some leftover)
 
+<div class="max-w-lg mx-auto">
 :excalidraw[/src/assets/posts/round-led-matrix/drawings/led-strips-serpentine-arrows.svg]
-
+</div>
 What each LED solder connection should look like:
 
 [maybe make this a like magnifying glass thingy with the drawing above?]
@@ -199,10 +207,64 @@ What each LED solder connection should look like:
 :excalidraw[/src/assets/posts/round-led-matrix/drawings/led-connection.svg]
 </div>
 
+
+import gridLeds from "../../assets/posts/round-led-matrix/images/4-grid-leds.png"
+
+<Image src={gridLeds} alt="" class="max-w-lg mx-auto"/>
+
+
+
 ## Step 5: Soldering the connection onto the ESP
 
 
 :excalidraw[/src/assets/posts/round-led-matrix/drawings/esp32-pinout.svg]
+
+
+import gridLedsOn from "../../assets/posts/round-led-matrix/images/5-grid-leds-on.png"
+
+<Image src={gridLedsOn} alt="" class="max-w-lg mx-auto"/>
+
+## Adding the fabric and gluing everything together
+
+
+import gridBaseLeds from "../../assets/posts/round-led-matrix/images/6-grid-base-leds.png"
+
+<Image src={gridBaseLeds} alt="" class="max-w-lg mx-auto"/>
+
+
+
+import baseBack from "../../assets/posts/round-led-matrix/images/7-base-backside.png"
+
+<Image src={baseBack} alt="" class="max-w-lg mx-auto"/>
+
+
+
+import gridBaseFrame from "../../assets/posts/round-led-matrix/images/8-grid-base-frame.png"
+
+<Image src={gridBaseFrame} alt="" class="max-w-lg mx-auto"/>
+
+
+import gridBaseFrameTape from "../../assets/posts/round-led-matrix/images/9-grid-base-frame-taped.png"
+
+<Image src={gridBaseFrameTape} alt="" class="max-w-lg mx-auto"/>
+
+
+import baseFabricBack from "../../assets/posts/round-led-matrix/images/10-base-fabric-backside.png"
+
+<Image src={baseFabricBack} alt="" class="max-w-lg mx-auto"/>
+
+import baseFabricBackTape from "../../assets/posts/round-led-matrix/images/11-base-fabric-backside-taped.png"
+
+<Image src={baseFabricBackTape} alt="" class="max-w-lg mx-auto"/>
+
+import homerMeme from "../../assets/posts/round-led-matrix/images/homer-meme.jpg"
+
+<Image src={homerMeme} alt="" class="max-w-lg mx-auto"/>
+
+
+import baseFabricFront from "../../assets/posts/round-led-matrix/images/12-base-fabric-front.png"
+
+<Image src={baseFabricFront} alt="" class="max-w-lg mx-auto"/>
 
 
 ## Step 5: Flashing the ESP
@@ -213,10 +275,6 @@ What each LED solder connection should look like:
 ## Step 6: Setting up the LED grid
 
 ## Step 7: Playing around with some effects
-
-## Extra: Make it a mirror? (maybe take this out for now?)
-
-## Some more pictures
 
 
 import CircularWebcam from "$components/posts/CircularWebcam.astro"
