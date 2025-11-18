@@ -28,7 +28,7 @@ export const NAME = "puppet";
 export const LICENSE = "MIT licensed.";
 
 // will be used to identify your bluesky account, so that likes and comments can be shown on your posts
-export const BLUESKY_IDENTIFIER = "flo-bit.dev";
+export const BLUESKY_IDENTIFIER = "teampuppet.bsky.social";
 
 export const SOURCE_LINK = 'https://github.com/abstellkammer/puppet-blog';
 

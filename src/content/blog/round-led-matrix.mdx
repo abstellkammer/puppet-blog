@@ -4,30 +4,34 @@ description: "Learn how to make your own round LED matrix with an esp32 and WLED
 pubDate: "Jul 01 2025"
 published: true
 tags: ["electronics", "diy"]
-heroImage: "../../assets/posts/round-led-matrix/cover.jpg"
+heroImage: "../../assets/posts/round-led-matrix/cover.png"
 heroVideo: "../../assets/posts/round-led-matrix/cover.mp4"
 ---
 
-BLOG POST WORK IN PROGRESS!
+import DownloadFile from "$components/DownloadFile.astro"
+import { BASE } from "../../config.ts";
+import { Image } from 'astro:assets';
 
 ## Introduction
 
-Last weekend we - the [puppet team (TM)](/puppet-blog/about) - joined the [fablab neukölln art makerthon](#). 
+A few months ago we - the [puppet team (TM)](/puppet-blog/about) - joined the [fablab neukölln art makerthon](https://luma.com/5jrpyp5u). 
 We had 48 hours to make something that should fit in a specified round frame and that we could showcase afterwards.
 
 import frame from "../../assets/posts/round-led-matrix/images/1-frame.png"
-import { Image } from 'astro:assets';
 
-<Image src={frame} alt="" class="mx-auto max-w-lg" />
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={frame} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+The frame we were given
+</span>
+</div>
 
 **flo-bit** is a sucker for anything made with controllable RGB LEDs and he can be very convincing when he's passionate 
 (and what could possibly worth more passion than individually controllable RGB LEDs?).
-So we basically just put a bunch of LEDs into that frame and made a pixel art mirror that in the end looked like this:
 
-[picture of pixel art mirror]
+So we basically just put a bunch of LEDs into that frame and made a round display. 
 
-Apart from working like a bad mirror this thing can also show a variety of cool effects, curtesy of [WLED](#).
-
+Here are a few of the cool effects it can show, curtesy of [WLED](https://kno.wled.ge/).
 
 import video1 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-1.mp4"
 import video2 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-2.mp4"
@@ -39,17 +43,6 @@ import video7 from "/src/assets/posts/round-led-matrix/effects/circle-lights-eff
 import video8 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-8.mp4"
 import video9 from "/src/assets/posts/round-led-matrix/effects/circle-lights-effects-9.mp4"
 
-{/*
-// import video1 from "/src/assets/posts/round-led-matrix/effects/output-1.webm"
-// import video2 from "/src/assets/posts/round-led-matrix/effects/output-2.webm"
-// import video3 from "/src/assets/posts/round-led-matrix/effects/output-3.webm"
-// import video4 from "/src/assets/posts/round-led-matrix/effects/output-4.webm"
-// import video5 from "/src/assets/posts/round-led-matrix/effects/output-5.webm"
-// import video6 from "/src/assets/posts/round-led-matrix/effects/output-6.webm"
-// import video7 from "/src/assets/posts/round-led-matrix/effects/output-7.webm"
-// import video8 from "/src/assets/posts/round-led-matrix/effects/output-8.webm"
-// import video9 from "/src/assets/posts/round-led-matrix/effects/output-9.webm"
-*/}
 
 <div class="grid grid-cols-2 md:grid-cols-3 not-prose gap-4">
  <video class="rounded-xl filter saturate-150 aspect-square object-cover" src={video1} autoplay loop muted></video>
@@ -63,11 +56,11 @@ import video9 from "/src/assets/posts/round-led-matrix/effects/circle-lights-eff
  <video class="rounded-xl hidden md:block filter saturate-150 aspect-square object-cover" src={video9} autoplay loop muted></video>
 </div>
 
-*This blog post is both the story of how we made it, as well as a how-to guide if you wanna make your own.*
+**This blog post is both the story of how we made it, as well as a how-to guide if you wanna make your own.**
 
-For the how-to we'll concentrate on how to make the LED frame with just the effects above (so without the mirror functionality), 
-as the mirror part is honestly very hacky, but we've added an [extra step](#) at the end describing how we hacked that together
-(if you have an idea for how to make that better, preferably with just an esp32 + camera, [send us a message](#)).
+We did initially plan to have this work together with a camera and be a "pixel art" mirror and while we did get this kinda 
+working for the demo, for the how-to we'll concentrate on how to make the LED frame with just the effects above (so without the mirror functionality), 
+as the mirror part is honestly very hacky and doesn't even look that good imo.
 
 ## Requirements
 
@@ -85,11 +78,11 @@ For the materials you need:
 
 (links are to the german amazon, those are not referrer links, just where we bought stuff)
 
-1. 7 meters of WS2812b with 60 leds per meter in total 420 (*noice*) LEDs [link](#)
-2. 1 esp32 (we used a D1 mini with usb c) [link](#)
-3. lots of small wires [link](#)
+1. 7 meters of WS2812b with 60 leds per meter in total 420 (*noice*) LEDs ([amazon](https://amazon.de/dp/B09N99DJRG))
+2. 1 esp32 (we used a D1 mini with usb c) ([amazon](https://amazon.de/dp/B0CJNMRG37))
+3. some small wires
 4. usb cable (depending on the esp32 you use either usb-c or micro-usb) and plug (or a powerbank if you want to make it mobile)
-5. 3 plates of 40cm x 24cm plywood (we used 3mm thickness but it doesn't really matter) [link](#)
+5. 3 plates of 40cm x 24cm plywood (we used 3mm thickness but it doesn't really matter)
 6. 4 cardboards (40cm x 24cm, preferably 3mm thickness)
 7. a white cloth thats at least 46cm x 46cm (we used an old bed cover)
 8. glue
@@ -109,20 +102,10 @@ Everything else we had at home, but should be pretty cheap anyway (less than 5 �
 
 First we created the backframe, by lasercutting 2 of the plywood plates. Here are the files both for *LightBurn* and as SVGs:
 
-[lasercut files, 4 files svg, 4 files lightburn]
-
-import DownloadFile from "$components/DownloadFile.astro"
-
 <DownloadFile 
-  file="/src/assets/posts/round-led-matrix/files/circle_light_base_split-cut_ready-wood.lbrn2" 
-  title="Backframe" 
-  description="LightBurn file for laser cutting"
-/>
-
-<DownloadFile 
-  file="/src/assets/posts/round-led-matrix/files/circle_light_base_split_bottom.svg" 
-  title="Backframe" 
-  description="Bottom part of the backframe as svg"
+  file={BASE + "/posts/round-led-matrix/files/round-led-matrix-base.zip"}
+  title="Base" 
+  description="Round base as lightburn and svg version"
 />
 
 Note that there are 2 layers, the first should be cut, the second is just for marking the LED strip positions (so use low power for that one).
@@ -137,8 +120,13 @@ Use some wood glue or just duct tape to glue the parts together and you should h
 
 import base from "../../assets/posts/round-led-matrix/images/3-base.png"
 
-<Image src={base} alt="" class="max-w-lg mx-auto" />
 
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={base} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+The backside of the base plate.
+</span>
+</div>
 
 ## Step 2: Adding the walls
 
@@ -153,14 +141,20 @@ and start putting them together, we tried that without glue first, but after eve
 
 import grid from "../../assets/posts/round-led-matrix/images/2-grid.png"
 
-<Image src={grid} alt="" class="max-w-lg mx-auto"/>
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={grid} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+The cardboard grid.
+</span>
+</div>
 
 ## Step 3: Cutting the LED strips
 
-Now for the three steps where you have to pay attention not to fuck it up: 
+Now for the first of three steps where you have to pay attention not to fuck it up: 
 Cutting the LED strips into segments in with the correct amount of LEDs for each segment.
 
-When cutting also make sure LED strips are cut exactly in the middle of a connection.
+When cutting also make sure LED strips are cut exactly in the middle of a connection (so you have enough place to solder on both parts).
 
 In total you need:
 
@@ -180,7 +174,7 @@ they should fit perfectly in the little markings on the plate (lengthwise, they 
 :excalidraw[/src/assets/posts/round-led-matrix/drawings/led-count.svg]
 </div>
 
-## Glueing the LED strips
+## Step 4: Glueing the LED strips
 
 the LED strips have to be laid out in a serpentine arrangement with the correct count.
 
@@ -191,7 +185,7 @@ the LED strips have to be laid out in a serpentine arrangement with the correct 
 there are little arrows on the LED strips that show you the direction there are going, those should alternate go left to right then right to left.
 
 
-## Step 4: Soldering the LED strips together
+## Step 5: Soldering the LED strips together
 
 Again pay lots of attention here, you can accidentially fry your LED strips if you make a mistake here 
 (we've of course *never* fried any LED strip *cough, cough*, thankfully the LED strips are usually sold as 5 meter strips so you have some leftover)
@@ -199,84 +193,203 @@ Again pay lots of attention here, you can accidentially fry your LED strips if y
 <div class="max-w-lg mx-auto">
 :excalidraw[/src/assets/posts/round-led-matrix/drawings/led-strips-serpentine-arrows.svg]
 </div>
-What each LED solder connection should look like:
 
-[maybe make this a like magnifying glass thingy with the drawing above?]
+On each LED strip connection, solder together the 5V, ground and data connection like so:
 
-<div class="w-1/2">
+<div class="w-1/3 mx-auto">
 :excalidraw[/src/assets/posts/round-led-matrix/drawings/led-connection.svg]
 </div>
 
+In the end you should have something like this:
 
 import gridLeds from "../../assets/posts/round-led-matrix/images/4-grid-leds.png"
 
-<Image src={gridLeds} alt="" class="max-w-lg mx-auto"/>
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={gridLeds} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Professionally soldered I would say
+</span>
+</div>
 
 
+## Step 6: Flashing the ESP
 
-## Step 5: Soldering the connection onto the ESP
+Take your esp32 and connect it to your computer (be sure to use a cable that has a data connection) and open this website:
+
+:link[https://install.wled.me/]{image="/src/assets/posts/round-led-matrix/screenshots/install.wled.me.png"}
+
+Click on install, select your usb port, confirm and wait a few minutes until it's installed.
+
+Once it's done you'll be asked to enter your Wifi credentials, do that and then click "Open WLED". You should see a screen like this:
+
+import screenMain from "../../assets/posts/round-led-matrix/screenshots/0-screen-main.png"
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={screenMain} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Main WLED screen.
+</span>
+</div>
+
+## Step 7: Setup the grid
+
+Click "Config" in the top bar to open the settings page, there click on "2D configuration":
+
+import screenSettings from "../../assets/posts/round-led-matrix/screenshots/1-screen-settings.png"
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={screenSettings} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+WLED settings screen.
+</span>
+</div>
+
+Check serpentine and enter the dimensions as 24 by 23 LEDs.
+
+import screenMatrix from "../../assets/posts/round-led-matrix/screenshots/2-screen-matrix.png"
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={screenMatrix} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+WLED matrix screen.
+</span>
+</div>
+
+Scroll all the way down and upload this `gaps.json` file:
+
+<DownloadFile 
+  file={BASE + "/posts/round-led-matrix/files/gaps.json"}
+  title="gaps.json" 
+  description="gap file for WLED 2D settings"
+/>
+
+import screenGapsFile from "../../assets/posts/round-led-matrix/screenshots/3-screen-gap-file.png"
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={screenGapsFile} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Select gaps.json file and click upload
+</span>
+</div>
+
+Optionally go back to the main page and select a different effect (e.g. rainbow).
 
 
+## Step 8: Soldering the connection onto the ESP
+
+Last soldering part: solder 5V, ground and data to the beginning of the first LED strip (optionally you can use the 3 pin connectors
+that are usually part of the LED strips).
+
+<div class="w-1/2 mx-auto">
 :excalidraw[/src/assets/posts/round-led-matrix/drawings/esp32-pinout.svg]
+</div>
 
 
 import gridLedsOn from "../../assets/posts/round-led-matrix/images/5-grid-leds-on.png"
 
-<Image src={gridLedsOn} alt="" class="max-w-lg mx-auto"/>
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={gridLedsOn} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+We did actually end up using the 3 pin connectors here.
+</span>
+</div>
 
-## Adding the fabric and gluing everything together
 
+## Step 9: Putting everything together
+
+Ok, we're almost done, lets put everything together:
 
 import gridBaseLeds from "../../assets/posts/round-led-matrix/images/6-grid-base-leds.png"
 
-<Image src={gridBaseLeds} alt="" class="max-w-lg mx-auto"/>
 
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={gridBaseLeds} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Put the grid on top of the base plate, aligning it with the LEDs.
+</span>
+</div>
 
 
 import baseBack from "../../assets/posts/round-led-matrix/images/7-base-backside.png"
 
-<Image src={baseBack} alt="" class="max-w-lg mx-auto"/>
-
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={baseBack} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Optional step: We duct taped the esp32 to the back...
+</span>
+</div>
 
 
 import gridBaseFrame from "../../assets/posts/round-led-matrix/images/8-grid-base-frame.png"
 
-<Image src={gridBaseFrame} alt="" class="max-w-lg mx-auto"/>
-
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={gridBaseFrame} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Put the first ring on top of the grid...
+</span>
+</div>
 
 import gridBaseFrameTape from "../../assets/posts/round-led-matrix/images/9-grid-base-frame-taped.png"
 
-<Image src={gridBaseFrameTape} alt="" class="max-w-lg mx-auto"/>
 
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={gridBaseFrameTape} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+... and duct tape it to the back :D
+
+</span>
+</div>
 
 import baseFabricBack from "../../assets/posts/round-led-matrix/images/10-base-fabric-backside.png"
 
-<Image src={baseFabricBack} alt="" class="max-w-lg mx-auto"/>
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={baseFabricBack} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Flip the whole thing around and lay it on top of your fabric.
+</span>
+</div>
 
 import baseFabricBackTape from "../../assets/posts/round-led-matrix/images/11-base-fabric-backside-taped.png"
 
-<Image src={baseFabricBackTape} alt="" class="max-w-lg mx-auto"/>
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={baseFabricBackTape} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+and more duct tape: Tape the fabric to the backside as well.
+</span>
+</div>
 
 import homerMeme from "../../assets/posts/round-led-matrix/images/homer-meme.jpg"
 
-<Image src={homerMeme} alt="" class="max-w-lg mx-auto"/>
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={homerMeme} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+You cares what the backside looks like...
+</span>
+</div>
 
 
 import baseFabricFront from "../../assets/posts/round-led-matrix/images/12-base-fabric-front.png"
 
-<Image src={baseFabricFront} alt="" class="max-w-lg mx-auto"/>
+
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={baseFabricFront} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+Flip it around again and glue the second frame on top of the fabric.
+</span>
+</div>
+
+We somehow forgot to take a picture of that last step, but we're basically done, so it should look something like this:
 
 
-## Step 5: Flashing the ESP
-
-:link[https://install.wled.me/]{image="/src/assets/posts/round-led-matrix/screenshots/install.wled.me.png"}
+import cover from "../../assets/posts/round-led-matrix/cover.png"
 
 
-## Step 6: Setting up the LED grid
-
-## Step 7: Playing around with some effects
-
-
-import CircularWebcam from "$components/posts/CircularWebcam.astro"
-
-<CircularWebcam />
+<div class="mx-auto max-w-lg not-prose flex flex-col gap-2 py-4">
+<Image src={cover} alt="" class="rounded-xl" />
+<span class="italic text-sm">
+So beautiful... This actually shows the "mirror" functionality too, pictured are <b>flo-bit</b> and <b>polijn</b>
+</span>
+</div>
