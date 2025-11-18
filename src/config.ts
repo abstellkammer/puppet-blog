@@ -52,6 +52,7 @@ export const SOCIAL_LINKS: {
   SHOW_RSS?: boolean;
 } = {
   SHOW_RSS: true,
+  BLUESKY_URL: "https://bsky.app/profile/teampuppet.bsky.social"
 };
 
 
